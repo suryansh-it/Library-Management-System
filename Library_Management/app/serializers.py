@@ -10,7 +10,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     authors = AuthorSerializer(many= True , read_only =True)
     author_ids = serializers.PrimaryKeyRelatedField(
-        queryset = Author.objects.all() , many = True , read_only = True, source ='authors'
+        queryset = Author.objects.all() , many = True , write_only = True, source ='authors'
     )
 
     class Meta:
