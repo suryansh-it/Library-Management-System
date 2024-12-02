@@ -1,4 +1,5 @@
 #Using DRF Viewsets for easy CRUD operations.
+#Created Views (API Endpoints)
 
 from django.shortcuts import render
 
