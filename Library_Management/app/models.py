@@ -1,4 +1,6 @@
 from django.db import models
+#serialization
+from rest_framework import serializers
 
 class Author(models.Model):
     first_name = models.CharField(max_length=100)
@@ -19,7 +21,7 @@ class Book(models.Model):
     additional_info = models.JSONField(null=True, blank=True)
 
     def __str__(self):
-        return self.title
+        return self.title  #return title when the obj is printed
     
 
 class Borrower(models.Model):
