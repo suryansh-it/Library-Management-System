@@ -18,7 +18,7 @@ class BookSerializer(serializers.ModelSerializer):
         fields =['id' , 'title' , 'authors' , 'author_ids' ,   'isbn' ,'borrower' ,'additional_info']
 
 
-class BorrowerSerrializer(serializers.ModelSerializer):
+class BorrowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrower
         fields = '__all__'

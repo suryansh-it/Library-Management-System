@@ -1,6 +1,5 @@
 from django.db import models
-#serialization
-from rest_framework import serializers
+
 
 class Author(models.Model):
     first_name = models.CharField(max_length=100)
