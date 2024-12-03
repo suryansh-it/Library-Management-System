@@ -30,6 +30,16 @@ class BookViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
 
+    def retrieve(self, request, *args, **kwargs):
+        
+        instance = self.get_object()
+        data = self.get_serializer(instance).data
+        data['message'] = 'Detailed information about the book'
+        return Response(data)
+
+
+
+
 class BorrowerViewSet(viewsets.ModelViewSet):
     queryset = Borrower.objects.all()
     serializer_class = BorrowerSerializer
