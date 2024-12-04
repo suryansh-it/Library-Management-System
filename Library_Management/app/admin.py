@@ -4,15 +4,11 @@ from .models import Book
 from .models import Borrower
 # Register your models here.
 
-@admin.register(Author)
-class AuthorAdmin(admin.ModelAdmin):
-    list_display =('first_name', 'last_name' , 'date_of_birth')  #display these columns
-    search_fields =('first_name', 'last_name')  #search by these fields
-    list_filter= ('date_of_birth',)  #filter by date of birth
+
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display =('title', 'authors' , 'idbn','borrower')  
+    list_display =('title', 'display_authors' , 'isbn','borrower')  
     search_fields =('title', 'isbn')  
     list_filter= ('borrower',)
 
@@ -21,9 +17,37 @@ class BookAdmin(admin.ModelAdmin):
         return obj.additional_info.get('genre','N/A')
     get_additional_info.short_description = 'Genre'
     
-        
+
+    # Custom method to display authors
+    def display_authors(self, obj):
+        # Aggregates all author names into a single string
+        """
+        Custom method to display a list of authors for each book.
+        Django Admin doesn't allow many-to-many fields directly in list_display.
+        """
+        return ", ".join(author.first_name + " " + author.last_name for author in obj.authors.all())
+
+    display_authors.short_description = 'Authors'  # Column label in admin 
+
+
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+    list_display =('first_name', 'last_name' , 'date_of_birth')  #display these columns
+    search_fields =('first_name', 'last_name')  #search by these fields
+    list_filter= ('date_of_birth',)  #filter by date of birth
+
+
 
 @admin.register(Borrower)
 class BorrowerAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name')
     search_fields = ('first_name', 'last_name')
+
+
+
+# Django Admin does not support displaying many-to-many fields directly in the list_display.
+# The authors field in the Book model is a many-to-many relationship, so including it in list_display causes the issue.
+
+# Solution:
+# To include many-to-many fields in list_display, you can define a custom method inthe admin class 
+# that aggregates the related data into a string format and then include that method in the list_display instead.
