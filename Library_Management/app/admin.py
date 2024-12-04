@@ -16,5 +16,12 @@ class BookAdmin(admin.ModelAdmin):
     search_fields =('title', 'isbn')  
     list_filter= ('borrower',)
 
+    # Custom method to display additional info in a readable format
+    def get_additional_info(self,obj):
+        return obj.additional_info.get('genre','N/A')
+    get_additional_info.short_description = 'Genre'
+    
+        
+
 @admin.register(Borrower)
 class BorrowerAdmin(admin.ModelAdmin)
