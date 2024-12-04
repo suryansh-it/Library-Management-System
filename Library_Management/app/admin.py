@@ -24,4 +24,6 @@ class BookAdmin(admin.ModelAdmin):
         
 
 @admin.register(Borrower)
-class BorrowerAdmin(admin.ModelAdmin)
+class BorrowerAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name')
+    search_fields = ('first_name', 'last_name')
