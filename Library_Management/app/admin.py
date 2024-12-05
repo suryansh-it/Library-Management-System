@@ -18,6 +18,9 @@ class BookAdmin(admin.ModelAdmin):
     get_additional_info.short_description = 'Genre'
     
 
+        # Admin action to mark selected books as unavailable
+    actions = ['mark_as_unavailable']
+
     # Custom method to display authors
     def display_authors(self, obj):
         # Aggregates all author names into a single string

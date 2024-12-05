@@ -22,6 +22,8 @@ class Book(models.Model):
     def __str__(self):
         return self.title  #return title when the obj is printed
     
+    is_available = models.BooleanField(default=True)
+
 
 class Borrower(models.Model):
     first_name = models.CharField(max_length=100)
