@@ -12,7 +12,8 @@ from django.contrib.admin import SimpleListFilter
 class BookAdmin(admin.ModelAdmin):
     list_display =('title', 'display_authors' , 'isbn','borrower')  
     search_fields =('title', 'isbn')  
-    list_filter= ('borrower',)
+    list_filter = ('is_available', 'borrower', 'GenreFilter')
+
 
     # Custom method to display additional info in a readable format
     def get_additional_info(self,obj):
