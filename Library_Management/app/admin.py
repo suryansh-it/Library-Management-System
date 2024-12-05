@@ -3,6 +3,7 @@ from .models import Author
 from .models import Book
 from .models import Borrower
 from django.utils.html import format_html
+from django.contrib.admin import SimpleListFilter
 # Register your models here.
 
 
@@ -61,3 +62,20 @@ class BorrowerAdmin(admin.ModelAdmin):
 # Solution:
 # To include many-to-many fields in list_display, you can define a custom method inthe admin class 
 # that aggregates the related data into a string format and then include that method in the list_display instead.
+
+
+class GenreFilter(SimpleListFilter):
+    title ='Genre'
+    parameter_name ='genre'
+
+    def lookups(self, request, model_admin):
+        return[
+            ('fiction', 'Fiction'),
+            ('non-fiction', 'Non-Fiction'),
+            ('fantasy', 'Fantasy'),
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(additional_info_genre= self.value())
+        return queryset  
