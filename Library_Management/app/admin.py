@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Author
 from .models import Book
 from .models import Borrower
+from django.utils.html import format_html
 # Register your models here.
 
 
@@ -20,6 +21,12 @@ class BookAdmin(admin.ModelAdmin):
 
         # Admin action to mark selected books as unavailable
     actions = ['mark_as_unavailable']
+
+    def mark_as_unavailable(self,request, queryset):
+        queryset.update(is_available= False)
+        self.message_user(request, f'{queryset.count()} books marked as unavailable')
+    mark_as_unavailable.short_description ='Mark selected books as  unavailable'
+
 
     # Custom method to display authors
     def display_authors(self, obj):
