@@ -3,7 +3,7 @@ from .models import Author
 from .models import Book
 from .models import Borrower
 from django.utils.html import format_html
-from django.contrib.admin import SimpleListFilter
+from .filters import GenreFilter
 # Register your models here.
 
 
@@ -12,7 +12,7 @@ from django.contrib.admin import SimpleListFilter
 class BookAdmin(admin.ModelAdmin):
     list_display =('title', 'display_authors' , 'isbn','borrower')  
     search_fields =('title', 'isbn')  
-    list_filter = ('is_available', 'borrower', 'GenreFilter')
+    list_filter = ('is_available', 'borrower', GenreFilter)
 
 
     # Custom method to display additional info in a readable format
@@ -65,18 +65,3 @@ class BorrowerAdmin(admin.ModelAdmin):
 # that aggregates the related data into a string format and then include that method in the list_display instead.
 
 
-class GenreFilter(SimpleListFilter):
-    title ='Genre'
-    parameter_name ='genre'
-
-    def lookups(self, request, model_admin):
-        return[
-            ('fiction', 'Fiction'),
-            ('non-fiction', 'Non-Fiction'),
-            ('fantasy', 'Fantasy'),
-        ]
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(additional_info_genre= self.value())
-        return queryset  
