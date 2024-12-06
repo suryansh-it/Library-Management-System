@@ -34,6 +34,16 @@ class Book(models.Model):                  # One-to-One: Borrower | Many-to-Many
 
 
 
+
+
+class Borrower(models.Model):           # One-to-Many with Book (via borrower field in Book)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+    
+
 # Extend User model to include profile details
 class UserProfile(models.Model):  # One-to-One relationship with User
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -44,10 +54,10 @@ class UserProfile(models.Model):  # One-to-One relationship with User
         return f"{self.user.username}'s Profile"
 
 
-
-class Borrower(models.Model):           # One-to-Many with Book (via borrower field in Book)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+# Borrowing model to track borrow details
+class Borrow(models.Model):  # Track borrowing and penalties
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # One-to-Many relationship
+    book = models.ForeignKey('Book', on_delete=models.CASCADE)  # Many-to-One with Book
+    borrow_date = models.DateField(auto_now_add=True)
+    return_date = models.DateField()
+    is_returned = models.BooleanField(default=False)
