@@ -1,5 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
 
+from datetime import timedelta, date
 
 # Custom Manager to filter available books
 # class AvailableBookManager(models.Manager):  # Custom model manager
@@ -29,6 +31,18 @@ class Book(models.Model):                  # One-to-One: Borrower | Many-to-Many
         return self.title  #return title when the obj is printed
     
     is_available = models.BooleanField(default=True)     # Boolean to track availability
+
+
+
+# Extend User model to include profile details
+class UserProfile(models.Model):  # One-to-One relationship with User
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    contact_number = models.CharField(max_length=15, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
+
 
 
 class Borrower(models.Model):           # One-to-Many with Book (via borrower field in Book)
