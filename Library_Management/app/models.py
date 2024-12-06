@@ -61,3 +61,17 @@ class Borrow(models.Model):  # Track borrowing and penalties
     borrow_date = models.DateField(auto_now_add=True)
     return_date = models.DateField()
     is_returned = models.BooleanField(default=False)
+
+
+    @property
+    def delay_days(self):  # Calculate days overdue
+        if not self.is_returned and date.today() > self.return_date:
+            return (date.today() - self.return_date).days
+        return 0
+
+    @property
+    def penalty(self):  # Calculate penalty based on delay
+        return self.delay_days * 5  # Example: 5 currency units per day delay
+
+    def __str__(self):
+        return f"{self.user.username} borrowed {self.book.title}"
