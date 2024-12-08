@@ -38,3 +38,10 @@ class UserRegistrationForm(forms.ModelForm):
         if password != confirm_password:
             raise forms.ValidationError("Passwords do not match!")
         return cleaned_data
+
+
+# UserProfile form for additional details
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['contact_number', 'address']
